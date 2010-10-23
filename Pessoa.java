@@ -3,7 +3,7 @@ public class Pessoa {
 
     private String nome;
 
-    private int cpf;
+    private String cpf;
 
     private String endereco;
 
@@ -46,11 +46,11 @@ public class Pessoa {
         this.cidade = val;
     }
 
-    public int getCpf () {
+    public String getCpf () {
         return cpf;
     }
 
-    public void setCpf (int val) {
+    public void setCpf (String val) {
         this.cpf = val;
     }
 
