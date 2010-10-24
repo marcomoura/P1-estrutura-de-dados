@@ -19,9 +19,6 @@ public class Pessoa {
 
     private String email;
 
-    public Pessoa () {
-    }
-
     public String getBairro () {
         return bairro;
     }
