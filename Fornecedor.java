@@ -5,22 +5,26 @@ public class Fornecedor extends Pessoa{
 
     private String razao_social;
 
-    private int cnpj;
+    private String cnpj;
 
     private String fundacao;
 
-    private String telefone;
-
     private String fax;
 
-    public Fornecedor () {
+    private String email;
+
+    public String getEmail () {
+        return email;
     }
 
-    public int getCnpj () {
+    public void setEmail (String val) {
+        this.email = val;
+    }
+    public String getCnpj () {
         return cnpj;
     }
 
-    public void setCnpj (int val) {
+    public void setCnpj (String val) {
         this.cnpj = val;
     }
 
@@ -40,11 +44,11 @@ public class Fornecedor extends Pessoa{
         this.fundacao = val;
     }
 
-    public String getNome_fantasia () {
+    public String getNome() {
         return nome_fantasia;
     }
 
-    public void setNome_fantasia (String val) {
+    public void setNome (String val) {
         this.nome_fantasia = val;
     }
 

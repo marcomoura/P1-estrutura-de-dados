@@ -17,8 +17,6 @@ public class Pessoa {
 
     private String telefone;
 
-    private String email;
-
     public String getBairro () {
         return bairro;
     }
@@ -49,14 +47,6 @@ public class Pessoa {
 
     public void setCpf (String val) {
         this.cpf = val;
-    }
-
-    public String getEmail () {
-        return email;
-    }
-
-    public void setEmail (String val) {
-        this.email = val;
     }
 
     public String getEndereco () {

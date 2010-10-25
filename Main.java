@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static String[] opcoes = {"sair","colaboradores","clientes"};
+    public static String[] opcoes = {"sair","colaboradores","clientes", "fornecedor"};
     public static String[] acoes = {"retornar","cadastrar","excluir", "imprimir"};
 
     public static Colaborador[] colaboradores = new Colaborador[100];
@@ -15,6 +15,9 @@ public class Main {
 
     public static Cliente[] clientes = new Cliente[100];
     public static int count_cliente = 0;
+
+    public static Fornecedor[] fornecedores = new Fornecedor[100];
+    public static int count_fornecedor = 0;
 
     public static void main(String[] args) {
       do{
@@ -75,7 +78,7 @@ public class Main {
             excluirColaborador();
             break;
         case 13:
-            imprimirPessoa(colaboradores);
+            imprimirPessoa(colaboradores,1);
             break;
         case 21:
             cadastrarCliente();
@@ -84,45 +87,106 @@ public class Main {
            // excluirPessoa(clientes);
             break;
         case 23:
-            imprimirPessoa(clientes);
+            imprimirPessoa(clientes,2);
+            break;
+        case 31:
+            cadastrarFornecedor();
+            break;
+        case 32:
+           // excluirPessoa(clientes);
+            break;
+        case 33:
+            imprimirPessoa(fornecedores,3);
             break;
       }
     }
 
     public static void cadastrarColaborador(){
-       legend(opcoes[1]+">>cadastrar");
-       String nome = inputText("nome");
-       String cpf = inputText("cpf");
-       String endereco = inputText("endereco");
-       String bairro = inputText("bairro");
-       String cidade = inputText("cidade");
-       String estado = inputText("estado");
-       String cep = inputText("cep");
-       String telefone = inputText("telefone");
-       String email = inputText("email");
-       String celular = inputText("celular");
-       String data_nascimento = inputText("data de nascimentor");
-       String desc_cursos = inputText("informe os cursos que participou");
-        
-       Colaborador novo = new Colaborador();
-       novo.setNome(nome);   
-       novo.setCpf(cpf);   
-       novo.setEndereco(endereco);   
-       novo.setBairro(bairro);   
-       novo.setCidade(cidade);   
-       novo.setEstado(estado);   
-       novo.setCep(cep);   
-       novo.setTelefone(telefone);   
-       novo.setEmail(email);   
+      legend(opcoes[1]+">>cadastrar");
+			String[] pessoa = readPessoa(1);
+      String celular = inputText("celular");
+      String data_nascimento = inputText("data de nascimentor");
+      String desc_cursos = inputText("informe os cursos que participou");
+      Colaborador novo = new Colaborador();
+      novo.setNome(pessoa[0]);   
+      novo.setCpf(pessoa[1]);   
+      novo.setEndereco(pessoa[2]);   
+      novo.setBairro(pessoa[3]);   
+      novo.setCidade(pessoa[4]);   
+      novo.setEstado(pessoa[5]);   
+      novo.setCep(pessoa[6]);   
+      novo.setTelefone(pessoa[7]);   
+      novo.setEmail(pessoa[8]);          
        novo.setCelular(celular);   
        novo.setData_nascimento(data_nascimento);   
        colaboradores[count_colab]= novo;
        count_colab++;
     }
 
-    public static void cadastrarCliente(){
+    public static String[] readPessoa(int tipo){  
+			String[] pessoa= new String[9];
+			String nome, doc;
+			if(tipo==3){
+				doc = "cnpj";
+				nome = "nome fantasia";
+			}else{
+				doc = "cpf";
+				nome = "nome";
+			}
+			
+      pessoa[0] = inputText(nome); 
+      pessoa[1] = inputText(doc); 
+      pessoa[2] = inputText("endereco");
+      pessoa[3] = inputText("bairro");
+      pessoa[4] = inputText("cidade");
+      pessoa[5] = inputText("estado");
+      pessoa[6] = inputText("cep");
+      pessoa[7] = inputText("telefone");
+      pessoa[8] = inputText("email");
+			return pessoa;
+		}
     
+		public static void cadastrarCliente(){    
+			legend(opcoes[2]+">>cadastrar");
+			String[] pessoa = readPessoa(2);
+      Cliente novo = new Cliente();
+      novo.setNome(pessoa[0]);   
+      novo.setCpf(pessoa[1]);   
+      novo.setEndereco(pessoa[2]);   
+      novo.setBairro(pessoa[3]);   
+      novo.setCidade(pessoa[4]);   
+      novo.setEstado(pessoa[5]);   
+      novo.setCep(pessoa[6]);   
+      novo.setTelefone(pessoa[7]);   
+      clientes[count_cliente]= novo;
+      count_cliente++;
     }
+
+		public static void cadastrarFornecedor(){
+			legend(opcoes[3]+">>cadastrar");
+			String[] pessoa = readPessoa(3);
+      Fornecedor novo = new Fornecedor();
+	    String razao_social = inputText("razão social");
+	    String fundacao = inputText("fundação");
+	    String email = inputText("email");
+	    String fax = inputText("fax");
+
+      novo.setNome(pessoa[0]);
+      novo.setCnpj(pessoa[1]);
+      novo.setEndereco(pessoa[2]);
+      novo.setBairro(pessoa[3]);
+      novo.setCidade(pessoa[4]);
+      novo.setEstado(pessoa[5]);
+      novo.setCep(pessoa[6]);
+      novo.setTelefone(pessoa[7]);
+      novo.setEmail(email);
+      novo.setRazao_social(razao_social);
+      novo.setFundacao(fundacao);
+      novo.setFax(fax);
+      fornecedores[count_fornecedor]= novo;
+      count_fornecedor++;
+			
+		}
 
     public static void excluirColaborador(){
       int id = readId(opcoes[1],"excluir");
@@ -137,12 +201,13 @@ public class Main {
       return id;
     }
 
-    public static void imprimirPessoa(Pessoa[] quem){
-      int id = readId(opcoes[1],"imprimir");
+    public static void imprimirPessoa(Pessoa[] quem, int key){
+      int id = readId(opcoes[key],"imprimir");
       try{
         System.out.println("Nome:"+quem[id].getNome());
       }catch(NullPointerException e){
         System.out.println("Id não encontrado");
       }
     }
+
 }
