@@ -26,9 +26,14 @@ public class Main {
          controller(acao);
       }while(true);
     }
+    
+    public static void legend(String _legend){
+      _legend = (_legend != "")? ">>"+_legend: "";
+      System.out.println("\n::Menu"+_legend+"::");
+    }
 
     public static int getOpcao(){
-      System.out.println(">>Menu:");
+      legend("");
       for(int i = 0; i < Main.opcoes.length; i++)
         System.out.println("  ["+(i)+"] "+ opcoes[i]);
       int opcao = inputInt("digite o numero");
@@ -37,7 +42,8 @@ public class Main {
 
     public static int getAcao(int opcao){
       
-      System.out.println(">>Menu>>"+opcoes[opcao]);
+      legend(opcoes[opcao]);
+
       for(int i = 0; i < Main.acoes.length; i++)
         System.out.println("  ["+(i)+"] "+ acoes[i]);
 
@@ -66,7 +72,7 @@ public class Main {
             cadastrarColaborador();
             break;
         case 12:
-            excluirPessoa(colaboradores);
+            excluirColaborador();
             break;
         case 13:
             imprimirPessoa(colaboradores);
@@ -75,7 +81,7 @@ public class Main {
             cadastrarCliente();
             break;
         case 22:
-            excluirPessoa(clientes);
+           // excluirPessoa(clientes);
             break;
         case 23:
             imprimirPessoa(clientes);
@@ -84,7 +90,7 @@ public class Main {
     }
 
     public static void cadastrarColaborador(){
-       System.out.println(">>Menu>>"+opcoes[1]+">>cadastrar::informe!\n");
+       legend(opcoes[1]+">>cadastrar");
        String nome = inputText("nome");
        String cpf = inputText("cpf");
        String endereco = inputText("endereco");
@@ -110,23 +116,33 @@ public class Main {
        novo.setEmail(email);   
        novo.setCelular(celular);   
        novo.setData_nascimento(data_nascimento);   
-        colaboradores[count_colab]= novo;
-        count_colab++;
+       colaboradores[count_colab]= novo;
+       count_colab++;
     }
 
     public static void cadastrarCliente(){
     
     }
 
-    public static void excluirPessoa(Pessoa[] objeto){
-       System.out.print(">>Menu>>"+opcoes[1]+">>excluir\n\n::");
-      int id = inputInt("qual ID deseja exluir");
-      objeto[id]=null;
+    public static void excluirColaborador(){
+      int id = readId(opcoes[1],"excluir");
+      colaboradores[id] = colaboradores[count_colab - 1];
+      colaboradores[count_colab - 1] = null;
+      count_colab--;
     }
     
+    public static int readId(String _legend, String label){
+      legend(_legend+">>"+label);
+      int id = inputInt("informe o ID: ");
+      return id;
+    }
+
     public static void imprimirPessoa(Pessoa[] quem){
-      System.out.print(">>Menu>>"+opcoes[1]+">>imprimir\n\n::");
-      int id = inputInt("qual ID deseja imprimir");
-      System.out.println("Nome:"+quem[id].getNome());
+      int id = readId(opcoes[1],"imprimir");
+      try{
+        System.out.println("Nome:"+quem[id].getNome());
+      }catch(NullPointerException e){
+        System.out.println("Id não encontrado");
+      }
     }
 }
