@@ -1,5 +1,9 @@
 /*
- * p1 de ED 
+ * p1 de ED
+ *
+ * desenvolver um programa na linguagem Java que permita ao usuário
+ * cadastrar, excluir e imprimir
+ * colaboradores, clientes, fornecedores, produtos, compras, vendas,  e encomendas.
  * @author Marco Moura <email at marcomoura dot com>
  */
 
@@ -7,7 +11,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static String[] opcoes = {"sair","colaboradores","clientes", "fornecedor", "cargo", "produto"};
+    public static String[] opcoes = {"sair","colaboradores","clientes", "fornecedor", "cargo", "produto", "compras","vendas","encomendas"};
     public static String[] acoes = {"retornar","novo","excluir", "mostrar"};
     public static int opcao;
     public static int acao;
@@ -29,6 +33,15 @@ public class Main {
 
     public static Produto[] produtos = new Produto[100];
     public static int count_produto = 0;
+
+    public static Compra[] compra = new Compra[100];
+    public static int count_compra = 0;
+
+    public static Venda[] vendas = new Venda[100];
+    public static int count_vendas = 0;
+
+    public static Encomenda[] encomendas = new Encomenda[100];
+    public static int count_encomendas = 0;
 
     public static void main(String[] args) {
       do{
@@ -113,6 +126,24 @@ public class Main {
             excluirProduto();        break;
         case 53:
             imprimirProduto();       break;
+        case 61:
+            cadastrarCompra();      break;
+        case 62:
+            excluirCompra();        break;
+        case 63:
+            imprimirCompra();       break;
+        case 71:
+            cadastrarVenda();      break;
+        case 72:
+            excluirVenda();        break;
+        case 73:
+            imprimirVenda();       break;
+        case 81:
+            cadastrarEncomenda();      break;
+        case 82:
+            excluirEncomenda();        break;
+        case 83:
+            imprimirEncomenda();       break;
         case 151:
             cargoColaborador();      break;
       }
@@ -363,6 +394,144 @@ public class Main {
           produtos[id] = produtos[count_produto - 1];
           produtos[count_produto - 1] = null;
           count_produto--;
+      }catch(ArrayIndexOutOfBoundsException e){
+        notFound();
+      }
+    }
+
+    public static ItemVenda[] cadastrarItemVenda(){
+        ItemVenda[] itens = new ItemVenda[100];
+        boolean loop = true;
+        do{
+            int id_prod = readId("produto");
+            int quant = inputInt("quantidade");
+
+            ItemVenda novo = new ItemVenda();
+            novo.setProduto(produtos[id_prod]);
+            novo.setQuantidade(quant);
+            if(0==inputInt("0=continuar cadastro de compra || 1=adicionar outro produto"))
+                loop = false;
+
+        }while(loop==true);
+        return itens;
+    }
+
+    public static void cadastrarCompra(){
+
+    ItemVenda[] itemVenda = cadastrarItemVenda();
+
+
+    int id_forn = readId("fornecedor");
+    int id_cola = readId("colaborador");
+    String data = inputText("data");
+      String hora = inputText("hora");
+
+      Compra novo = new Compra();
+      novo.setData(data);
+      novo.setHora(hora);
+      novo.setFornecedor(fornecedores[id_forn]);
+      novo.setColaborador(colaboradores[id_cola]);
+      novo.setItemVenda(itemVenda);
+      compra[count_compra]= novo;
+      count_compra++;
+    }
+
+    public static void imprimirCompra(){
+      int id = readId();
+      try{
+        System.out.println("\nNome:"+produtos[id].getNome()+
+                "\nPreço:"+produtos[id].getPreco());
+      }catch(NullPointerException e){
+        notFound();
+      }
+    }
+
+    public static void excluirCompra(){
+      try{
+          int id = readId();
+          produtos[id] = produtos[count_produto - 1];
+          produtos[count_produto - 1] = null;
+          count_produto--;
+      }catch(ArrayIndexOutOfBoundsException e){
+        notFound();
+      }
+    }
+
+    public static void cadastrarVenda(){
+
+    ItemVenda[] itemVenda = cadastrarItemVenda();
+
+
+    int id_cola = readId("colaborador");
+    String data = inputText("data");
+      String hora = inputText("hora");
+
+      Venda novo = new Venda();
+      novo.setData(data);
+      novo.setHora(hora);
+      novo.setColaborador(colaboradores[id_cola]);
+      novo.setItemVenda(itemVenda);
+      vendas[count_vendas]= novo;
+      count_vendas++;
+    }
+
+    public static void imprimirVenda(){
+      int id = readId();
+      try{
+        System.out.println("\nColaborador:"+vendas[id].getColaborador()+
+                "\nHora:"+vendas[id].getHora());
+      }catch(NullPointerException e){
+        notFound();
+      }
+    }
+
+    public static void excluirVenda(){
+      try{
+          int id = readId();
+          vendas[id] = vendas[count_vendas - 1];
+          vendas[count_vendas - 1] = null;
+          count_vendas--;
+      }catch(ArrayIndexOutOfBoundsException e){
+        notFound();
+      }
+    }
+
+    public static void cadastrarEncomenda(){
+
+    ItemVenda[] itemVenda = cadastrarItemVenda();
+
+
+    int id_cola = readId("colaborador");
+    int id_cliente = readId("cliente");
+    String data = inputText("data");
+      String hora = inputText("hora");
+
+      Encomenda novo = new Encomenda();
+      novo.setData(data);
+      novo.setHora(hora);
+      novo.setCliente(clientes[id_cliente]);
+      novo.setColaborador(colaboradores[id_cola]);
+      novo.setItemVenda(itemVenda);
+      encomendas[count_encomendas]= novo;
+      count_encomendas++;
+    }
+
+    public static void imprimirEncomenda(){
+      int id = readId();
+      try{
+        System.out.println("\nColaborador:"+encomendas[id].getColaborador()+
+                "\nHora:"+encomendas[id].getHora());
+      }catch(NullPointerException e){
+        notFound();
+      }
+    }
+
+    public static void excluirEncomenda(){
+      try{
+          int id = readId();
+          encomendas[id] = encomendas[count_encomendas - 1];
+          encomendas[count_encomendas - 1] = null;
+          count_encomendas--;
       }catch(ArrayIndexOutOfBoundsException e){
         notFound();
       }
