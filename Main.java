@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static String[] opcoes = {"sair","colaboradores","clientes", "fornecedor", "cargo", "promover colaborador"};
+    public static String[] opcoes = {"sair","colaboradores","clientes", "fornecedor", "cargo", "produto"};
     public static String[] acoes = {"retornar","novo","excluir", "mostrar"};
     public static int opcao;
     public static int acao;
@@ -26,6 +26,9 @@ public class Main {
 
     public static Cargo[] cargos = new Cargo[100];
     public static int count_cargo = 0;
+
+    public static Produto[] produtos = new Produto[100];
+    public static int count_produto = 0;
 
     public static void main(String[] args) {
       do{
@@ -81,44 +84,37 @@ public class Main {
     public static void controller(){
       switch(acao){
         case 11:
-            cadastrarColaborador();
-            break;
+            cadastrarColaborador();  break;
         case 12:
-            excluirColaborador();
-            break;
+            excluirColaborador();    break;
         case 13:
-            imprimirColaborador();
-            break;
+            imprimirColaborador();   break;
         case 21:
-            cadastrarCliente();
-            break;
+            cadastrarCliente();      break;
         case 22:
-           // excluirPessoa(clientes);
-            break;
+            excluirCliente();        break;
         case 23:
-            imprimirCliente();
-            break;
+            imprimirCliente();       break;
         case 31:
-            cadastrarFornecedor();
-            break;
+            cadastrarFornecedor();   break;
         case 32:
-           // excluirPessoa(clientes);
-            break;
+            excluirFornecedor();     break;
         case 33:
-            imprimirFornecedor();
-            break;
+            imprimirFornecedor();    break;
         case 41:
-            cadastrarCargo();
-            break;
+            cadastrarCargo();        break;
         case 42:
-            excluirCargo();
-            break;
+            excluirCargo();          break;
         case 43:
-            imprimirCargo();
-            break;
+            imprimirCargo();         break;
         case 51:
-            cargoColaborador();
-            break;
+            cadastrarProduto();      break;
+        case 52:
+            excluirProduto();        break;
+        case 53:
+            imprimirProduto();       break;
+        case 151:
+            cargoColaborador();      break;
       }
     }
 
@@ -226,7 +222,21 @@ public class Main {
       colaboradores[count_colab - 1] = null;
       count_colab--;
     }
-    
+
+    public static void excluirCliente(){
+      int id = readId();
+      clientes[id] = clientes[count_cliente - 1];
+      clientes[count_cliente - 1] = null;
+      count_cliente--;
+    }
+
+    public static void excluirFornecedor(){
+      int id = readId();
+      fornecedores[id] = fornecedores[count_fornecedor - 1];
+      fornecedores[count_fornecedor - 1] = null;
+      count_fornecedor--;
+    }
+
     public static int readId(){
       int id = inputInt("informe o ID : ");
       return id;
@@ -321,6 +331,38 @@ public class Main {
           cargos[id] = cargos[count_cargo - 1];
           cargos[count_cargo - 1] = null;
           count_cargo--;
+      }catch(ArrayIndexOutOfBoundsException e){
+        notFound();
+      }
+    }
+
+    public static void cadastrarProduto(){
+      String nome = inputText("nome");
+      int preco = inputInt("preco");
+
+      Produto novo = new Produto();
+      novo.setNome(nome);
+      novo.setPreco(preco);
+      produtos[count_produto]= novo;
+      count_produto++;
+    }
+
+    public static void imprimirProduto(){
+      int id = readId();
+      try{
+        System.out.println("\nNome:"+produtos[id].getNome()+
+                "\nPreço:"+produtos[id].getPreco());
+      }catch(NullPointerException e){
+        notFound();
+      }
+    }
+
+    public static void excluirProduto(){
+      try{
+          int id = readId();
+          produtos[id] = produtos[count_produto - 1];
+          produtos[count_produto - 1] = null;
+          count_produto--;
       }catch(ArrayIndexOutOfBoundsException e){
         notFound();
       }
