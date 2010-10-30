@@ -9,7 +9,7 @@ public class Colaborador extends Pessoa{
     private String desc_cursos;
 
     private String email;
-
+    
     public String getEmail () {
         return email;
     }
